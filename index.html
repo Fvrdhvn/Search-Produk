@@ -1,0 +1,162 @@
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Search Produk — Mini Project</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .card.small {
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <header class="hero">
+        <h1 class="title">Cari Produk</h1>
+        <p class="subtitle">Temukan produkmu dengan mudah.</p>
+
+        <div class="controls">
+          <input
+            id="search"
+            class="input"
+            placeholder="Cari nama produk..."
+            aria-label="Cari produk"
+          />
+          <select id="category" class="select">
+            <option value="all">Semua Kategori</option>
+            <option value="electronics">Elektronik</option>
+            <option value="fashion">Fashion</option>
+            <option value="food">Makanan</option>
+          </select>
+          <span id="resultCount" class="meta">0 produk</span>
+        </div>
+      </header>
+
+      <section id="productList" class="grid">
+        <article
+          class="card"
+          data-name="Headphone BassPro"
+          data-category="electronics"
+          data-price="299000"
+        >
+          <img class="thumb" src="img/earbuds.jpg" alt="Headphone" />
+          <div class="card-body">
+            <h3 class="product-name">Headphone BassPro</h3>
+            <p class="product-meta">Elektronik • Rp 299.000</p>
+          </div>
+        </article>
+        <article
+          class="card"
+          data-name="Kaos Polos"
+          data-category="fashion"
+          data-price="85000"
+        >
+          <img class="thumb" src="img/kaos.jpg" alt="Kaos Polos" />
+          <div class="card-body">
+            <h3 class="product-name">Kaos Polos</h3>
+            <p class="product-meta">Fashion • Rp 85.000</p>
+          </div>
+        </article>
+        <article
+          class="card"
+          data-name="Kopi Toraja"
+          data-category="food"
+          data-price="45000"
+        >
+          <img class="thumb" src="img/kopi.jpg" alt="Kopi Toraja" />
+          <div class="card-body">
+            <h3 class="product-name">Kopi Toraja</h3>
+            <p class="product-meta">Makanan • Rp 45.000</p>
+          </div>
+        </article>
+        <article
+          class="card"
+          data-name="Sepatu Adidas"
+          data-category="fashion"
+          data-price="720000"
+        >
+          <img class="thumb" src="img/sepatu.jpg" alt="Sepatu Adidas" />
+          <div class="card-body">
+            <h3 class="product-name">Sepatu Adidas</h3>
+            <p class="product-meta">Fashion • Rp 720.000</p>
+          </div>
+        </article>
+        </article>
+        <article
+          class="card"
+          data-name="Mouse Razer"
+          data-category="electronics"
+          data-price="400000"
+        >
+          <img class="thumb" src="img/mouse.jpg" alt="Mouse Razer" />
+          <div class="card-body">
+            <h3 class="product-name">Mouse Razer</h3>
+            <p class="product-meta">Elektronik • Rp 400.000</p>
+          </div>
+        </article>
+        </article>
+        <article
+          class="card"
+          data-name="Sandwich"
+          data-category="food"
+          data-price="50000"
+        >
+          <img class="thumb" src="img/sandwich.jpg" alt="Sandwich" />
+          <div class="card-body">
+            <h3 class="product-name">Sandwich</h3>
+            <p class="product-meta">Makanan • Rp 50.000</p>
+          </div>
+        </article>
+      </section>
+
+      <footer class="footer">
+        <small>Tip: ketik kata atau pilih kategori untuk mencari.</small>
+        <span id="totalPrice" class="totals">Total: Rp 0</span>
+      </footer>
+    </main>
+
+    <script>
+      const searchInput = document.getElementById("search");
+      const categorySelect = document.getElementById("category");
+      const resultCount = document.getElementById("resultCount");
+      const totalPriceEl = document.getElementById("totalPrice");
+      const products = Array.from(document.querySelectorAll(".card"));
+
+      function filterProducts() {
+        const searchText = searchInput.value.toLowerCase();
+        const category = categorySelect.value;
+        let visibleProducts = 0;
+        let totalPrice = 0;
+
+        products.forEach((product) => {
+          const name = product.dataset.name.toLowerCase();
+          const productCategory = product.dataset.category;
+          const price = Number(product.dataset.price);
+
+          const matchText = name.includes(searchText);
+          const matchCategory =
+            category === "all" || productCategory === category;
+
+          if (matchText && matchCategory) {
+            product.style.display = "";
+            product.classList.add("small");
+            visibleProducts++;
+            totalPrice += price;
+          } else {
+            product.style.display = "none";
+            product.classList.remove("small");
+          }
+        });
+
+        resultCount.textContent = visibleProducts + " produk";
+        totalPriceEl.textContent =
+          "Total: Rp " + totalPrice.toLocaleString("id-ID");
+      }
+
+      searchInput.addEventListener("input", filterProducts);
+      categorySelect.addEventListener("change", filterProducts);
+    </script>
+  </body>
+</html>
